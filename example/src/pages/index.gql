@@ -1,0 +1,29 @@
+query getPosts($options: PageQueryOptions) {
+  posts(options: $options) {
+    data {
+      id
+      title
+      body
+    }
+    meta {
+      totalCount
+    }
+  }
+}
+
+mutation updatePost($id: ID!, $input: UpdatePostInput!) {
+  updatePost(id: $id, input: $input) {
+    id
+    body
+  }
+}
+mutation createPost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    id
+    body
+  }
+}
+
+mutation deletePost($id: ID!) {
+  deletePost(id: $id)
+}
