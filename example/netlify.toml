@@ -1,5 +1,5 @@
 [build]
-  publish = "cd example; /dist"
+  publish = "./dist"
   command = "cd example; yarn build"
 
   [build.environment]
