@@ -1,16 +1,14 @@
-import * as Types from './schemas';
+import type * as Types from './schemas';
 
 export type GetPostsQueryVariables = Types.Exact<{
-  options?: Types.Maybe<Types.PageQueryOptions>;
+  options: Types.Maybe<Types.PageQueryOptions>;
 }>;
 
-export type GetPostsQuery = { __typename?: 'Query' } & {
-  posts?: Types.Maybe<
-    { __typename?: 'PostsPage' } & {
-      data?: Types.Maybe<Array<Types.Maybe<{ __typename?: 'Post' } & Pick<Types.Post, 'id' | 'title' | 'body'>>>>;
-      meta?: Types.Maybe<{ __typename?: 'PageMetadata' } & Pick<Types.PageMetadata, 'totalCount'>>;
-    }
-  >;
+export type GetPostsQuery = {
+  posts: Types.Maybe<{
+    data: Types.Maybe<Array<Types.Maybe<Pick<Types.Post, 'id' | 'title' | 'body'>>>>;
+    meta: Types.Maybe<Pick<Types.PageMetadata, 'totalCount'>>;
+  }>;
 };
 
 export type UpdatePostMutationVariables = Types.Exact<{
@@ -18,20 +16,16 @@ export type UpdatePostMutationVariables = Types.Exact<{
   input: Types.UpdatePostInput;
 }>;
 
-export type UpdatePostMutation = { __typename?: 'Mutation' } & {
-  updatePost?: Types.Maybe<{ __typename?: 'Post' } & Pick<Types.Post, 'id' | 'body'>>;
-};
+export type UpdatePostMutation = { updatePost: Types.Maybe<Pick<Types.Post, 'id' | 'body'>> };
 
 export type CreatePostMutationVariables = Types.Exact<{
   input: Types.CreatePostInput;
 }>;
 
-export type CreatePostMutation = { __typename?: 'Mutation' } & {
-  createPost?: Types.Maybe<{ __typename?: 'Post' } & Pick<Types.Post, 'id' | 'body'>>;
-};
+export type CreatePostMutation = { createPost: Types.Maybe<Pick<Types.Post, 'id' | 'body'>> };
 
 export type DeletePostMutationVariables = Types.Exact<{
   id: Types.Scalars['ID'];
 }>;
 
-export type DeletePostMutation = { __typename?: 'Mutation' } & Pick<Types.Mutation, 'deletePost'>;
+export type DeletePostMutation = Pick<Types.Mutation, 'deletePost'>;

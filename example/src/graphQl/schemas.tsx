@@ -1,4 +1,4 @@
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -9,7 +9,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
 
@@ -49,10 +48,7 @@ export type AlbumsPage = {
   meta?: Maybe<PageMetadata>;
 };
 
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE',
-}
+export type CacheControlScope = 'PUBLIC' | 'PRIVATE';
 
 export type Comment = {
   __typename?: 'Comment';
@@ -232,12 +228,7 @@ export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
-export enum OperatorKindEnum {
-  Gte = 'GTE',
-  Lte = 'LTE',
-  Ne = 'NE',
-  Like = 'LIKE',
-}
+export type OperatorKindEnum = 'GTE' | 'LTE' | 'NE' | 'LIKE';
 
 export type OperatorOptions = {
   kind?: Maybe<OperatorKindEnum>;
@@ -393,10 +384,7 @@ export type SortOptions = {
   order?: Maybe<SortOrderEnum>;
 };
 
-export enum SortOrderEnum {
-  Asc = 'ASC',
-  Desc = 'DESC',
-}
+export type SortOrderEnum = 'ASC' | 'DESC';
 
 export type Todo = {
   __typename?: 'Todo';

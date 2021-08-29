@@ -1,5 +1,5 @@
+import { TableListCrud } from '@/components/Form/TableCrud';
 import { FormLayout } from '@/components/NextLayout';
-import TableListCrud from '@/components/TableForm/TableListCrud';
 import { ProColumns } from '@ant-design/pro-table';
 import React, { memo } from 'react';
 import { IJobType, useIndex } from './useIndex';
@@ -56,6 +56,7 @@ export default memo(() => {
   //* ------------------ return data ------------------------
   return (
     <FormLayout style={{ maxWidth: '90%', margin: 'auto' }}>
+      {/* @ts-ignore */}
       <TableListCrud {...{ ...allTableProps, columns }} />
     </FormLayout>
   );

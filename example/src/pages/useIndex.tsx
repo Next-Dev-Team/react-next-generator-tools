@@ -1,22 +1,18 @@
-import { ITableList } from '@/components/TableForm/TableListCrud';
-import { ISuccessAction, successAction } from '@/components/TableForm/TableListCrud/successAction';
-import { ICrudState } from '@/components/TableForm/TableListCrud/TableCrud';
-import { API } from '@/graphQl/API';
+import { ITableList } from '@/components/Form/TableCrud';
+import { ISuccessAction, successAction } from '@/components/Form/TableCrud/successAction';
+import { ICrudState } from '@/components/Form/TableCrud/TableCrud';
 import { useCreatePostMutation, useDeletePostMutation, useGetPostsQuery, useUpdatePostMutation } from '@/graphQl/hooks';
 import { useCreation } from 'ahooks';
 import { useLocalStorageState, usePersistFn, useReactive } from 'ahooks/es';
 import { Form } from 'antd';
 import isEmpty from 'lodash/isEmpty';
+
 /**
  * ----------------------- Interface ----------------------
  */
 export type IJobType = {
   filter: API.GetPostsQueryVariables['options'];
-  // jobInput: API.CreateJobMutationVariables['input'];
-  // jobUpdate: API.UpdateJobsMutationVariables['input'];
-  // jobDelete: API.DeleteJobsMutationVariables;
-  jobRecord: API.GetPostsQuery['posts']['data'][0];
-  // jobMetadata: API.GetJobsQuery['getJobs']['metadata'];
+  record: API.GetPostsQuery;
 };
 
 type IState = Partial<ICrudState & { record: IJobType['jobRecord'] }>;
@@ -119,7 +115,6 @@ export const useIndex = () => {
     pageName,
   };
 
-  // @ts-ignore
   return {
     ...customProps,
     dataSource,
@@ -175,5 +170,5 @@ export const useIndex = () => {
         paginate: { limit: pageSize, page: current },
       };
     },
-  } as ITableList & typeof customProps;
+  } as Partial<ITableList & typeof customProps>;
 };

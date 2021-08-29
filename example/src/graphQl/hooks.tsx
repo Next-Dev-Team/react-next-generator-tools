@@ -1,7 +1,7 @@
-import * as Types from './operations';
+import type * as Types from './operations';
 
 import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/client';
+import type * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 
 export const GetPostsDocument = gql`
@@ -18,23 +18,6 @@ export const GetPostsDocument = gql`
     }
   }
 `;
-
-/**
- * __useGetPostsQuery__
- *
- * To run a query within a React component, call `useGetPostsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostsQuery({
- *   variables: {
- *      options: // value for 'options'
- *   },
- * });
- */
 export function useGetPostsQuery(
   baseOptions?: ApolloReactHooks.QueryHookOptions<Types.GetPostsQuery, Types.GetPostsQueryVariables>,
 ) {
@@ -63,25 +46,6 @@ export type UpdatePostMutationFn = ApolloReactCommon.MutationFunction<
   Types.UpdatePostMutation,
   Types.UpdatePostMutationVariables
 >;
-
-/**
- * __useUpdatePostMutation__
- *
- * To run a mutation, you first call `useUpdatePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePostMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePostMutation, { data, loading, error }] = useUpdatePostMutation({
- *   variables: {
- *      id: // value for 'id'
- *      input: // value for 'input'
- *   },
- * });
- */
 export function useUpdatePostMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<Types.UpdatePostMutation, Types.UpdatePostMutationVariables>,
 ) {
@@ -108,24 +72,6 @@ export type CreatePostMutationFn = ApolloReactCommon.MutationFunction<
   Types.CreatePostMutation,
   Types.CreatePostMutationVariables
 >;
-
-/**
- * __useCreatePostMutation__
- *
- * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePostMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
 export function useCreatePostMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<Types.CreatePostMutation, Types.CreatePostMutationVariables>,
 ) {
@@ -149,24 +95,6 @@ export type DeletePostMutationFn = ApolloReactCommon.MutationFunction<
   Types.DeletePostMutation,
   Types.DeletePostMutationVariables
 >;
-
-/**
- * __useDeletePostMutation__
- *
- * To run a mutation, you first call `useDeletePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeletePostMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deletePostMutation, { data, loading, error }] = useDeletePostMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
 export function useDeletePostMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<Types.DeletePostMutation, Types.DeletePostMutationVariables>,
 ) {

@@ -1,21 +1,30 @@
 import NextTable from '@/components/NextTable';
-import { getOnlyValue } from '@/utils/arrObj';
-import { ClearOutlined, EditOutlined, LeftOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  ClearOutlined,
+  EditOutlined,
+  LeftOutlined,
+  PlusOutlined,
+  SaveOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
+import type { BaseQueryFilterProps } from '@ant-design/pro-form';
 import type { ProTableProps } from '@ant-design/pro-table';
 import type { ProSchemaComponentTypes } from '@ant-design/pro-utils';
 import { NextButton } from '@next-dev/component/es/NextButton';
-import { Button, FormInstance, Space, Tabs } from 'antd';
-import React, { memo } from 'react';
+import type { FormInstance } from 'antd';
+import { Button, Space, Tabs } from 'antd';
+import React from 'react';
 import { useNextTable } from './hook';
 
 /**
  * @Global Crud table do not modify it plz ask the component owner
  */
 
-type ITableState = {
+export type ITableState = {
   isDelete?: boolean;
   add?: boolean;
   edit?: boolean;
+  isReset?: boolean;
   view?: boolean;
   record?: Record<any, any>;
   type?: ProSchemaComponentTypes;
@@ -26,14 +35,21 @@ export type ITableList<T = Record<string, any>, U = Record<string, any>, ValueTy
   form?: FormInstance;
   operation?: any;
   loadingSubmit?: boolean;
+  isHideView?: boolean;
+  isHideEdit?: boolean;
+  isHideAdd?: boolean;
+  isHideDelete?: boolean;
+  operationWidth?: any;
   state: ITableState;
+  onSearchQuery?: (v: BaseQueryFilterProps['optionRender']) => void;
   setMode: (v?: ITableState) => void;
+  onResetForm: () => void;
   setColMap: (v?: Record<any, any>) => void;
   tabTitleList: string;
   tabTitleCrud: string;
 } & ProTableProps<T, U, ValueType>;
 
-function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueType = 'text'>(
+export function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueType = 'text'>(
   props: ITableList<T, U, ValueType>,
 ) {
   const {
@@ -44,6 +60,12 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
     tabTitleList,
     tabTitleCrud,
     loadingSubmit,
+    isHideView,
+    isHideEdit,
+    isHideDelete,
+    isHideAdd,
+    operationWidth,
+    onResetForm,
     ...rest
   } = props;
 
@@ -81,9 +103,9 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
         }}
       >
         <Tabs.TabPane tab={tabTitleList} key="table" />
-        {<Tabs.TabPane tab={tabTitleCrud} key="form" />}
+        {!isHideAdd && <Tabs.TabPane tab={tabTitleCrud} key="form" />}
       </Tabs>
-      {['table', 'form'].includes(state?.type) && (
+      {['table', 'form'].includes(state?.type as string) && (
         <>
           {/* @ts-ignore */}
           <NextTable
@@ -91,20 +113,30 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
               ...rest,
               columns: getCommonTableField({
                 operation,
+                operationWidth,
                 columnsData: rest?.columns as any,
-                onClickDelete: (record) => {
-                  state.isDelete = true;
-                  setMode({ record });
-                },
-                onClickEdit: (record) => {
-                  setFalseAddEdit(record);
-                  state.view = false;
-                  state.edit = true;
-                },
-                onClickView: (record) => {
-                  setFalseAddEdit(record);
-                  state.view = true;
-                },
+                // @ts-ignore
+                onClickDelete: isHideDelete
+                  ? false
+                  : (record) => {
+                      state.isDelete = true;
+                      setMode({ record });
+                    },
+                // @ts-ignore
+                onClickEdit: isHideEdit
+                  ? false
+                  : (record) => {
+                      setFalseAddEdit(record);
+                      state.view = false;
+                      state.edit = true;
+                      state.record = record;
+                    },
+                onClickView: isHideView
+                  ? (false as any)
+                  : (record) => {
+                      setFalseAddEdit(record);
+                      state.view = true;
+                    },
                 disabled: state.view && state?.type === 'form',
               }),
               onColumnsStateChange: (v: any) => {
@@ -112,25 +144,61 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
               },
               type: state?.type,
               beforeSearchSubmit: (v = {}) => {
-                if (state?.type === 'table') {
-                  const getValue = getOnlyValue(v);
-                  rest?.beforeSearchSubmit(getValue);
+                if (state?.type === 'table' && rest?.beforeSearchSubmit) {
+                  rest?.beforeSearchSubmit(v);
                 }
               },
               onSubmit: (v: any) => {
-                if (state.type === 'form') {
+                if (state.type === 'form' && rest?.onSubmit) {
                   rest?.onSubmit(v);
                 }
               },
 
-              search: {
-                labelWidth: 'auto',
-                ...rest?.search,
-              },
+              search:
+                rest?.search === false
+                  ? false
+                  : {
+                      labelWidth: 'auto',
+                      optionRender: (v: any) => {
+                        return (
+                          <Space>
+                            <NextButton
+                              htmlType="submit"
+                              icon={<ClearOutlined style={{ color: '#edad2d' }} />}
+                              onClick={() => {
+                                v?.form?.resetFields();
+                                state.isReset = true;
+                              }}
+                            >
+                              Reset
+                            </NextButton>
+                            <NextButton
+                              type="primary"
+                              htmlType="submit"
+                              icon={<SearchOutlined />}
+                              onClick={() => {
+                                state.isReset = false;
+                              }}
+                            >
+                              Search
+                            </NextButton>
+                          </Space>
+                        );
+                      },
+                      ...rest?.search,
+                    },
               form:
                 state?.type === 'form'
                   ? {
+                      scrollToFirstError: true,
                       form: rest?.form,
+                      ...rest?.form,
+                      style: {
+                        padding: 20,
+                        minHeight: 150,
+                        ...rest.form?.style,
+                      },
+
                       submitter: {
                         render: () => {
                           return (
@@ -150,12 +218,13 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
                               >
                                 Back
                               </NextButton>
-                              {state.view && (
+                              {state.view && !isHideEdit && (
                                 <NextButton
                                   icon={<EditOutlined />}
                                   type="link"
                                   onClick={() => {
                                     state.view = false;
+                                    state.add = false;
                                     state.edit = true;
                                   }}
                                 >
@@ -168,7 +237,10 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
                                   {!state.edit && (
                                     <NextButton
                                       icon={<ClearOutlined style={{ color: '#edad2d' }} />}
-                                      onClick={() => rest?.form?.resetFields()}
+                                      onClick={() => {
+                                        rest?.form?.resetFields();
+                                        onResetForm?.();
+                                      }}
                                     >
                                       Reset
                                     </NextButton>
@@ -192,19 +264,24 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
                       },
                     }
                   : {},
-              toolBarRender: () => [
-                <Button
-                  key="button"
-                  icon={<PlusOutlined />}
-                  type="primary"
-                  onClick={() => {
-                    setFalseEditView();
-                    state.add = true;
-                  }}
-                >
-                  Add
-                </Button>,
-              ],
+
+              toolBarRender: () =>
+                isHideAdd
+                  ? []
+                  : [
+                      <Button
+                        key="button"
+                        icon={<PlusOutlined />}
+                        type="primary"
+                        onClick={() => {
+                          setFalseEditView();
+                          state.add = true;
+                          rest.form?.resetFields();
+                        }}
+                      >
+                        Add
+                      </Button>,
+                    ],
               pagination:
                 rest?.pagination === false
                   ? false
@@ -220,5 +297,3 @@ function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueTy
     </>
   );
 }
-
-export default memo(TableListCrud);

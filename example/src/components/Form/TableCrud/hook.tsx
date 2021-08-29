@@ -1,9 +1,9 @@
 import type { IActionButton } from '@/components/ActionButton';
 import ActionButton from '@/components/ActionButton';
-import { toCapitalize } from '@/utils/stringRegex';
 import type { ProColumns } from '@ant-design/pro-table';
 import type { ProFieldValueType } from '@ant-design/pro-utils';
-import { useCreation } from 'ahooks/es';
+import { useCreation } from 'ahooks';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 
 export type INextType = 'href' | 'enumBoolean' | ProFieldValueType;
@@ -27,13 +27,17 @@ export const useNextTable = () => {
     onClickView,
     disabled,
     operation,
+    operationWidth = 100,
   }: {
     columnsData: IColumns[] | undefined;
-    onClickEdit?: (record?: any, isEdit?: boolean) => void;
-    onClickDelete?: (record?: any, isEdit?: boolean) => void;
+    onClickEdit?: (record?: any, isEdit?: boolean) => void | boolean | undefined;
+    onClickDelete?: (record?: any, isEdit?: boolean) => void | boolean | undefined;
     onClickView?: (record?: any, isView?: boolean) => void;
     disabled?: boolean;
-    operation?: IActionButton;
+    operationWidth?: any;
+    operation?: IActionButton & {
+      state: any;
+    };
   }) => {
     const newArr: any[] = [];
 
@@ -41,7 +45,7 @@ export const useNextTable = () => {
       columnsData?.length === 0
         ? [
             {
-              title: 'operation',
+              title: 'Operation',
               key: 'operation1',
               search: false,
               fixed: 'right',
@@ -49,10 +53,13 @@ export const useNextTable = () => {
             },
           ]
         : ([
+            /**
+             * most case it will need id for update or delete
+             * we
+             */
             {
-              title: 'No',
+              title: 'id',
               dataIndex: 'id',
-              width: 90,
               valueType: 'text',
               hideInTable: true,
               formItemProps: {
@@ -66,8 +73,8 @@ export const useNextTable = () => {
               key: 'operation',
               search: false,
               fixed: 'right',
-              width: 50,
-              align: 'right',
+              // align: 'center',
+              width: operationWidth,
               hideInForm: true,
               hideInDescriptions: true,
               render: (_: any, record: any) => (
@@ -75,10 +82,13 @@ export const useNextTable = () => {
                   {...{
                     operation: { ...operation, record },
                     onClickView: onClickView ? () => onClickView && onClickView(record, true) : (false as any),
-                    onClickEdit: () => onClickEdit && onClickEdit(record, true),
-                    delPopconfirmProps: onClickDelete && {
-                      onConfirm: () => onClickDelete && onClickDelete(record),
-                    },
+                    onClickEdit: onClickEdit ? () => onClickEdit(record, true) : false,
+                    delPopconfirmProps: onClickDelete
+                      ? {
+                          onConfirm: () => onClickDelete && onClickDelete(record),
+                        }
+                      : false,
+                    ...(operation as any),
                   }}
                 />
               ),
@@ -89,7 +99,7 @@ export const useNextTable = () => {
       const { title } = i || {};
       const typeDf = {
         ...i,
-        title: toCapitalize(String(title)),
+        title: capitalize(String(title)),
         fieldProps: {
           disabled,
           ...i?.fieldProps,

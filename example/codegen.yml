@@ -13,6 +13,11 @@ generates:
     documents: 'src/**/**.gql'
     plugins:
       - typescript
+    config:
+      enumsAsTypes: true
+      maybeValue: T | null | undefined
+      disableDescriptions: true
+      useImplementingTypes: true
 
   # Create operations based on queries
   src/graphQl/operations.tsx:
@@ -22,6 +27,13 @@ generates:
       typesPath: ./schemas
     plugins:
       - typescript-operations
+    config:
+      avoidOptionals: true
+      declarationKind: 'type'
+      skipTypeNameForRoot: true
+      allowEnumStringTypes: true
+      skipTypename: true
+      useTypeImports: true
 
   # 1. Export GraphQL documents
   # 2. React interface
@@ -38,3 +50,8 @@ generates:
       withComponent: false
       withHooks: true
       reactApolloVersion: 3
+      # disabled comment
+      addDocBlocks: false
+      dedupeOperationSuffix: true
+      skipTypename: true
+      useTypeImports: true

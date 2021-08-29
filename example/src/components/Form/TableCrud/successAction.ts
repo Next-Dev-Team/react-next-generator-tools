@@ -3,7 +3,7 @@ import message, { ArgsProps } from 'antd/lib/message';
 import { ICrudState } from './TableCrud';
 
 export type ISuccessAction = Partial<{
-  msg: ArgsProps['content'];
+  msg: ArgsProps['content'] | boolean;
   isReload: boolean;
 }> & {
   state?: Partial<ICrudState>;
@@ -13,9 +13,12 @@ export type ISuccessAction = Partial<{
   form?: FormInstance<any>;
 };
 
+/**
+ * refetch func
+ */
 export const successAction = ({
   state = { loadingRefetch: false },
-  refetch = () => null,
+  refetch = async () => null,
   msg = 'Operation Successfully!',
   isResetForm = true,
   formType = 'form',
@@ -24,7 +27,7 @@ export const successAction = ({
 }: ISuccessAction = {}) => {
   const isBackTable = state.add && state.type !== 'table';
 
-  !isReload && message.success(msg);
+  !isReload && msg && message.success(msg);
   state.loadingRefetch = true;
   if (isBackTable) {
     setTimeout(() => {
@@ -34,9 +37,7 @@ export const successAction = ({
 
   refetch &&
     state &&
-    form &&
     refetch().then((res) => {
-      // console.log('hh', );
       if (res.data) {
         isReload && message.success('The data is upto date!');
         if (state.type !== 'table') {
