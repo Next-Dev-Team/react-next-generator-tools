@@ -1,6 +1,6 @@
 [build]
   publish = "./dist"
-  command = "cd example; yarn build"
+  command = "cd example;yarn install; yarn build"
 
   [build.environment]
   YARN_VERSION = "1.22.10"
