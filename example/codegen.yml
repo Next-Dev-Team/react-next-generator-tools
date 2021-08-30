@@ -1,5 +1,5 @@
 # Endpoint API, the following URL is a example
-schema: https://graphqlzero.almansi.me/api
+schema: https://ybiztech-pos-api.herokuapp.com/graphql
 overwrite: true
 
 # Format files
@@ -9,7 +9,7 @@ hooks:
 
 generates:
   # Get schemas from server
-  src/graphQl/schemas.tsx:
+  src/graphQl/schemas.ts:
     documents: 'src/**/**.gql'
     plugins:
       - typescript
@@ -18,9 +18,11 @@ generates:
       maybeValue: T | null | undefined
       disableDescriptions: true
       useImplementingTypes: true
+      avoidOptionals: true
+      immutableTypes: true
 
   # Create operations based on queries
-  src/graphQl/operations.tsx:
+  src/graphQl/operations.ts:
     documents: 'src/**/**.gql'
     preset: import-types
     presetConfig:
@@ -34,6 +36,9 @@ generates:
       allowEnumStringTypes: true
       skipTypename: true
       useTypeImports: true
+      preResolveTypes: false
+      arrayInputCoercion: false
+      immutableTypes: true
 
   # 1. Export GraphQL documents
   # 2. React interface

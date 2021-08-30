@@ -2,7 +2,6 @@ import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import type { ProFormListProps } from '@ant-design/pro-form';
 import { ProFormList } from '@ant-design/pro-form';
 import type { ReactNode } from 'react';
-import React from 'react';
 
 export type INextFormList = {
   children: ReactNode;

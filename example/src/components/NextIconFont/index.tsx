@@ -1,7 +1,5 @@
-import { iconfontUrlDemo } from '@/utils';
 import { createFromIconfontCN } from '@ant-design/icons';
 import type { IconFontProps } from '@ant-design/icons/lib/components/IconFont';
-import React from 'react';
 
 type IconsSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type INextIconFontProps = {
@@ -33,7 +31,7 @@ export const NextIconFont = (props: INextIconFontProps) => {
   };
   // https://www.iconfont.cn/manage/index?spm=a313x.7781069.1998910419.db775f1f3&manage_type=myprojects&projectId=2221049&keyword=&project_type=&page=
   const AntIcon = createFromIconfontCN({
-    scriptUrl: iconfontUrl || iconfontUrlDemo,
+    scriptUrl: iconfontUrl,
   });
 
   return (

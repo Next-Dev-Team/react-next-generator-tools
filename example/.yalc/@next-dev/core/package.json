@@ -1,6 +1,6 @@
 {
     "name": "@next-dev/core",
-    "version": "3.4.6+b1bbe759",
+    "version": "3.4.6+f3336438",
     "description": "@wetrial/core",
     "module": "es/index.js",
     "main": "lib/index.js",
@@ -45,5 +45,5 @@
         "jsencrypt": "^3.0.0-rc.1",
         "store": "^2.0.12"
     },
-    "yalcSig": "b1bbe7597893e5720e3d39983106b7f3"
+    "yalcSig": "f3336438117d94722fc1eefa5bd5400f"
 }

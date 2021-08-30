@@ -1,35 +1,47 @@
 module.exports = {
-  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
-  parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module", // Allows for the use of imports
-    ecmaFeatures: {
-      jsx: true // Allows for the parsing of JSX
-    }
+  extends: [require.resolve('@umijs/fabric/dist/eslint')],
+  globals: {
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
+    page: true,
+    REACT_APP_ENV: true,
   },
-  settings: {
-    react: {
-      version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-    }
-  },
-  extends: [
-    "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
-  ],
-  plugins: ['import'],
   rules: {
-    'prettier/prettier': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-    'import/newline-after-import': 'error',
-    'react/display-name': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    'react/prop-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
-
+    '@typescript-eslint/no-unused-expressions': 0,
+    'no-restricted-globals': 0,
+    'no-nested-ternary': 0,
+    '@typescript-eslint/no-shadow': 0,
+    '@typescript-eslint/no-unused-vars': 1,
+    'no-return-assign': 0,
+    'no-restricted-syntax': 0,
+    'no-underscore-dangle': 0,
+    'no-useless-escape': 0,
+    'react/jsx-key': ['error'],
+    'no-console': 0,
+    'func-names': 0,
+    'lines-around-directive': 0,
+    'no-path-concat': 0,
+    'no-param-reassign': 0,
+    'no-buffer-constructor': 0,
+    'global-require': 0,
+    'no-new-require': 0,
+    'no-empty-pattern': 0,
+    'react-native/no-inline-styles': 0,
+    'react/require-default-props': 0,
+    'react/no-array-index-key': 0,
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: [
+          '@config/',
+          '@/',
+          '@modules',
+          '@next-core',
+          '@next-component',
+          '@next-provider',
+          '@next-hooks',
+          'shared',
+        ],
+      },
+    ],
   },
 };

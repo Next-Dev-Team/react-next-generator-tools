@@ -1,4 +1,4 @@
-import NextTable from '@/components/NextTable';
+import NextTable from '@/components/Form/NextTable';
 import {
   ClearOutlined,
   EditOutlined,
@@ -9,30 +9,30 @@ import {
 } from '@ant-design/icons';
 import type { BaseQueryFilterProps } from '@ant-design/pro-form';
 import type { ProTableProps } from '@ant-design/pro-table';
+import type { PageInfo } from '@ant-design/pro-table/lib/typing';
 import type { ProSchemaComponentTypes } from '@ant-design/pro-utils';
 import { NextButton } from '@next-dev/component/es/NextButton';
 import type { FormInstance } from 'antd';
 import { Button, Space, Tabs } from 'antd';
-import React from 'react';
 import { useNextTable } from './hook';
 
 /**
  * @Global Crud table do not modify it plz ask the component owner
  */
 
-export type ITableState = {
+export type ITableState<T> = {
   isDelete?: boolean;
   add?: boolean;
   edit?: boolean;
   isReset?: boolean;
   view?: boolean;
-  record?: Record<any, any>;
+  record?: T;
   type?: ProSchemaComponentTypes;
 };
 
 export type ITableList<T = Record<string, any>, U = Record<string, any>, ValueType = 'text'> = {
   colMap?: any;
-  form?: FormInstance;
+  form?: FormInstance<T>;
   operation?: any;
   loadingSubmit?: boolean;
   isHideView?: boolean;
@@ -40,14 +40,16 @@ export type ITableList<T = Record<string, any>, U = Record<string, any>, ValueTy
   isHideAdd?: boolean;
   isHideDelete?: boolean;
   operationWidth?: any;
-  state: ITableState;
+  state: ITableState<T>;
   onSearchQuery?: (v: BaseQueryFilterProps['optionRender']) => void;
-  setMode: (v?: ITableState) => void;
-  onResetForm: () => void;
-  setColMap: (v?: Record<any, any>) => void;
+  setMode: (v?: ITableState<T>) => void;
+  onResetForm?: () => void;
+  setColMap: (v?: any) => void;
   tabTitleList: string;
   tabTitleCrud: string;
-} & ProTableProps<T, U, ValueType>;
+} & Omit<ProTableProps<T, U, ValueType>, 'beforeSearchSubmit'> & {
+    beforeSearchSubmit?: (params?: Partial<U & PageInfo>) => any;
+  };
 
 export function TableListCrud<T = Record<string, any>, U = Record<string, any>, ValueType = 'text'>(
   props: ITableList<T, U, ValueType>,
@@ -90,6 +92,7 @@ export function TableListCrud<T = Record<string, any>, U = Record<string, any>, 
     <>
       <Tabs
         activeKey={state?.type}
+        // @ts-ignore
         onChange={(e: ITableList['type']) => {
           if (!state.edit || !state.view) {
             rest?.form?.resetFields();
@@ -118,7 +121,7 @@ export function TableListCrud<T = Record<string, any>, U = Record<string, any>, 
                 // @ts-ignore
                 onClickDelete: isHideDelete
                   ? false
-                  : (record) => {
+                  : (record: T) => {
                       state.isDelete = true;
                       setMode({ record });
                     },
