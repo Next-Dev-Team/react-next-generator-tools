@@ -1,4 +1,5 @@
 export declare const Regex: {
+    isImg: RegExp;
     IdCard: RegExp;
     plate: RegExp;
     bdV9: RegExp;

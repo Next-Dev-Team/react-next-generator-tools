@@ -4,7 +4,6 @@ import type { ProColumns } from '@ant-design/pro-table';
 import type { ProFieldValueType } from '@ant-design/pro-utils';
 import { useCreation } from 'ahooks';
 import capitalize from 'lodash/capitalize';
-import React from 'react';
 
 export type INextType = 'href' | 'enumBoolean' | ProFieldValueType;
 
@@ -81,7 +80,9 @@ export const useNextTable = () => {
                 <ActionButton
                   {...{
                     operation: { ...operation, record },
-                    onClickView: onClickView ? () => onClickView && onClickView(record, true) : (false as any),
+                    onClickView: onClickView
+                      ? () => onClickView && onClickView(record, true)
+                      : (false as any),
                     onClickEdit: onClickEdit ? () => onClickEdit(record, true) : false,
                     delPopconfirmProps: onClickDelete
                       ? {

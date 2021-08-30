@@ -2,11 +2,11 @@
   "version": "v1",
   "packages": {
     "@next-dev/component": {
-      "signature": "02fc1be09730bfdd0d3b822356f4b756",
+      "signature": "43673e0089eaf0eccb968f3fc333c8e9",
       "file": true
     },
     "@next-dev/core": {
-      "signature": "b1bbe7597893e5720e3d39983106b7f3",
+      "signature": "f3336438117d94722fc1eefa5bd5400f",
       "file": true
     },
     "@next-dev/hooks": {

@@ -20,4 +20,9 @@ yarn-error.log
 .history
 CNAME
 /build
-umi-block.json
+/public
+.yalc
+/yalc
+graphQl
+.mfsu.prod
+.mfsu.dev

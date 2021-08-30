@@ -27,12 +27,16 @@ const ActionButton = memo((props: IActionButton) => {
   const ActionButtonMap = [
     operation?.isShowCheck && (
       <Tooltip key="check" placement="bottomRight" title="Set as default">
-        <Popconfirm title="Set as default?" onConfirm={() => onClickDefault && onClickDefault(record?.id)}>
+        <Popconfirm
+          title="Set as default?"
+          onConfirm={() => onClickDefault && onClickDefault(record?.id)}
+        >
           <NextIconFont
             {...{
               style: { color: '#1890ff' },
               ...rest,
-              type: record?.isDefault === true ? 'icon-radoibox_unchecked' : 'icon-radio-unchecked-b-o',
+              type:
+                record?.isDefault === true ? 'icon-radoibox_unchecked' : 'icon-radio-unchecked-b-o',
               iconSize: 'md',
             }}
           />

@@ -1,5 +1,13 @@
+/lambda/
 /scripts
-**/node_modules/**
-_scripts
-/lambda/mock/**
-_test_
+/config
+.history
+public
+dist
+.umi
+mock
+.yalc
+/yalc
+graphQl
+.mfsu.prod
+.mfsu.dev

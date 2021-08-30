@@ -1,33 +1,42 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "outDir": "build/dist",
     "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "jsx": "react",
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "baseUrl": "./",
-    "allowJs": true,
+    "target": "esnext",
     "lib": ["esnext", "dom"],
-    "noEmit": true,
-    "strict": false,
-    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": false,
+    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "noImplicitThis": false,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "strict": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@/*": ["./src/*"],
+      "@@/*": ["./src/.umi/*"]
     }
   },
-  "include": ["./src/**/*", "./typings.d.ts", "client.ts"]
+  "include": [
+    "mock/**/*",
+    "src/**/*",
+    "tests/**/*",
+    "test/**/*",
+    "__test__/**/*",
+    "typings/**/*",
+    "config/**/*",
+    ".eslintrc.js",
+    ".stylelintrc.js",
+    ".prettierrc.js",
+    "jest.config.js",
+    "mock/*"
+  ],
+  "exclude": ["node_modules", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
 }

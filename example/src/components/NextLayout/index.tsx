@@ -3,7 +3,7 @@ import ProCard from '@ant-design/pro-card';
 import type { PageContainerProps } from '@ant-design/pro-layout';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { CSSProperties, ReactNode } from 'react';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import css from './index.less';
 import { NextSettingDrawer } from './NextSettingDrawer';
 
@@ -14,6 +14,7 @@ type ILayout = {
   isEmptyLayout?: boolean;
   isShowBreadcrumb?: boolean;
   isNormal?: boolean;
+  IS_PRE?: boolean;
 } & PageContainerProps;
 
 const Layout = memo((props: ILayout) => {
@@ -22,8 +23,9 @@ const Layout = memo((props: ILayout) => {
     contentInnerStyle,
     cardProps,
     isEmptyLayout,
-    isShowBreadcrumb,
+    isShowBreadcrumb = false,
     isNormal,
+    IS_PRE,
     ...rest
   } = props;
   const breadcrumb = isShowBreadcrumb ? {} : { breadcrumb: undefined };
@@ -47,6 +49,7 @@ const Layout = memo((props: ILayout) => {
                 layout: 'center',
                 style: {
                   minHeight: '80vh',
+                  backgroundColor: 'transparent',
                   ...contentInnerStyle,
                 },
                 ...cardProps,
@@ -57,6 +60,7 @@ const Layout = memo((props: ILayout) => {
           </ProCard>
         )}
       </PageContainer>
+      {IS_PRE && <NextSettingDrawer />}
     </>
   );
 });
