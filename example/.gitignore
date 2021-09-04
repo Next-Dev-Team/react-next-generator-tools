@@ -38,3 +38,6 @@ screenshot
 build
 .mfsu.prod
 .mfsu.dev
+/example/constant.ts
+example/constant.ts
+

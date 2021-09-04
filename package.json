@@ -8,7 +8,7 @@
     "main": "lib/index.js",
     "scripts": {
         "setup": "yarn install; cd example; yarn install; cd ..",
-        "gen": "cd example; yarn gen; cd ..",
+        "gen": "cd example; yarn genApi; cd ..",
         "start": "cross-env UMI_UI=1 && UMI_ENV=dev APP_ROOT=example umi dev",
         "dev": "concurrently --kill-others \"yarn watch\" \"yarn start\"",
         "watch": "father-build --watch",
